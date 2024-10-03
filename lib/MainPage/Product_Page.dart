@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../EX.dart';
 import 'Cart_Page.dart';
 import 'Home.dart';
+import 'Search_Page.dart';
 
 void main() {
   runApp(const ProductPage(data: 0,));
@@ -37,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -60,6 +62,16 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  // Giá trị mặc định của DropdownButton
+  String? _selectedValue;
+  String? _NXB_selectedValue;
+
+  // Danh sách các giá trị cho DropdownButton
+  final List<String> TLdropdownItems = ['Cổ Tích', 'Truyền Thuyết', 'Nhật Ký', 'Phiêu Lưu'];
+  final List<String> NXBdropdownItems = ['Nhà Xuất Bản Kim Đồng', 'Cộng Đồng Cổ Tích Thế Giới', 'Japan Foundation'];
+
+  final TextEditingController _search = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -75,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const EX()),
+        MaterialPageRoute(builder: (context) => const SearchPage()),
       );}
     else if (index == 0) {
       Navigator.push(context,
@@ -92,6 +104,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
+  void _searchProduct() {
+    setState(() {
+
+    });
+  }
 
 
 
@@ -106,35 +123,104 @@ class _MyHomePageState extends State<MyHomePage> {
 
         title: Text(widget.title),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,),
-          itemCount: 4,
-        itemBuilder: (context, index) {
-          return Card(
-            elevation: 4,
-            margin: const EdgeInsets.all(8.0),
-            child: Column(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row (
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(child: Image.asset('assets/images/hutech.jpg', width:100, height: 80), ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Hello World',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Expanded(
+                  child: DropdownButton<String>(
+                    hint: const Text('Chọn The Loại:'),
+                    value: TLdropdownItems.contains(_selectedValue) ? _selectedValue : null,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedValue = newValue;
+                      });
+                    },
+                    items: TLdropdownItems.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
                   ),
                 ),
-                const Padding(padding: EdgeInsets.all(8.0),
-                child: Text('良い本物です', style: TextStyle(fontSize: 12),),
-               )
-              ],
 
+              ],
+            ),
+          ),
+          Padding(padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: DropdownButton<String>(
+                    hint: const Text('Chọn NXB:'),
+                    value: NXBdropdownItems.contains(_NXB_selectedValue) ? _NXB_selectedValue : null,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _NXB_selectedValue = newValue;
+                      });
+                    },
+                    items: NXBdropdownItems.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding (padding: const EdgeInsets.all(8.0),
+            child: Row (
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(child: TextField(
+                  controller: _search,
+                  decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Tim ten san pham', constraints: BoxConstraints(
+                      maxWidth: 300, minWidth: 280
+                  ),
+                  ),
+
+                ),),
+                Expanded(child: ElevatedButton(onPressed: _searchProduct, child: const Text('Tìm kiem')))
+              ],
             ),
 
-          );
-        },
+          ),
 
-        //child: _widgetOptions.elementAt(_selectedIndex),
+          Expanded(child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,),
+            itemCount: 4,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 4,
+                margin: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Expanded(child: Image.asset('assets/images/hutech.jpg', width:100, height: 80), ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Hello World',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(8.0),
+                      child: Text('良い本物です', style: TextStyle(fontSize: 12),),
+                    )
+                  ],
+
+                ),
+
+              );
+            },))
+        ],
       ),
+
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 

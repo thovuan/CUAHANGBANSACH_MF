@@ -1,4 +1,5 @@
 import 'package:cuahangbansach/MainPage/Product_Page.dart';
+import 'package:cuahangbansach/MainPage/Search_Page.dart';
 import 'package:flutter/material.dart';
 
 import '../EX.dart';
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const EX()),
+        MaterialPageRoute(builder: (context) => const SearchPage()),
       );}
       else if (index == 0) {
         Navigator.push(context,

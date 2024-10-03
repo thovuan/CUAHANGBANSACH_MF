@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../EX.dart';
-import 'CT_Cart_Page.dart';
+import 'Cart_Page.dart';
 import 'Home.dart';
 import 'Product_Page.dart';
-import 'Search_Page.dart';
 
 void main() {
-  runApp(const CartPage(data: 0,));
+  runApp(const CT_CartPage(data: 0,));
 }
 
-class CartPage extends StatelessWidget {
+class CT_CartPage extends StatelessWidget {
   final int data;
-  const CartPage({super.key, required this.data});
+  const CT_CartPage({super.key, required this.data});
 
   // This widget is the root of your application.
   @override
@@ -25,7 +24,7 @@ class CartPage extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: 'Giỏ Hàng', initialIndex: data,),
+      home: MyHomePage(title: 'Chi tiết Giỏ Hàng', initialIndex: data,),
     );
   }
 }
@@ -78,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SearchPage()),
+        MaterialPageRoute(builder: (context) => const EX()),
       );}
     else if (index == 0) {
       Navigator.push(context,
@@ -97,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _CTCP() {
     setState(() {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const CT_CartPage(data: 3)),);
+
     });
   }
 
@@ -120,11 +119,11 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: items.length,
           itemBuilder: (context, index) {
             return ListTile(
-              leading: Image.asset('assets/images/hutech.jpg', width:100, height: 80),
+                leading: Image.asset('assets/images/hutech.jpg', width:100, height: 80),
 
-              title: Text("Đơn Hàng số ${items[index]}"),
-              subtitle: Text("Mô tả ngắn gọn Đơn Hàng số ${items[index]}"),
-              trailing: IconButton(onPressed: _CTCP, icon: const Icon(Icons.import_contacts),)
+                title: Text("Sách số ${items[index]}"),
+                subtitle: Text("Mô tả ngắn gọn sách số ${items[index]}"),
+                trailing: IconButton(onPressed: _CTCP, icon: const Icon(Icons.import_contacts),)
             );
           }
         //_widgetOptions.elementAt(_selectedIndex),
