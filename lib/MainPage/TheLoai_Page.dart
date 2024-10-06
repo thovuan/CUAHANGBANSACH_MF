@@ -1,22 +1,24 @@
 import 'package:cuahangbansach/Provider/Book_Provider.dart';
+import 'package:cuahangbansach/Provider/Category_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../EX.dart';
 import 'Cart_Page.dart';
 import 'Home.dart';
+import 'Product_Page.dart';
 import 'Search_Page.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(create: (context) => Book_Provider(),
-      child: const ProductPage(data: 0,)),
+    ChangeNotifierProvider(create: (context) => Category_Provider(),
+        child: const CP(data: 0,)),
 
   );
 }
 
-class ProductPage extends StatelessWidget {
+class CP extends StatelessWidget {
   final int data;
-  const ProductPage({super.key, required this.data});
+  const CP({super.key, required this.data});
 
   // This widget is the root of your application.
   @override
@@ -129,48 +131,30 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-                  future: Provider.of<Book_Provider>(context, listen: false).fetchProducts(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.error != null) {
-                      return const Center(child: Text('Error fetching products'));
-                    } else {
-                      return Consumer<Book_Provider>(
-                        builder: (context, bookProvider, child) {
-                          return GridView.builder(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,),
-                            itemCount: bookProvider.book.length,
-                            itemBuilder: (context, index) {
-                              final product = bookProvider.book[index];
-                              return Card(
-                                margin: const EdgeInsets.all(8.0),
-                                  elevation: 4,
-
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Tác giả: ${product.masach}'),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            product.tensach,
-                                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                          ),
-
-                                        ],
-                                      ),
-
-                              );
-
-                            },
-                          );
-                        },
-                      );
-                    }
+        future: Provider.of<Category_Provider>(context, listen: false).fetchProducts(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.error != null) {
+            return const Center(child: Text('Error fetching products'));
+          } else {
+            return Consumer<Category_Provider>(
+              builder: (context, categoryProvider, child) {
+                return ListView.builder(
+                  itemCount: categoryProvider.tls.length,
+                  itemBuilder: (context, index) {
+                    final product = categoryProvider.tls[index];
+                    return ListTile(
+                      title: Text('\$${product.matheloai}'),
+                      subtitle: Text('\$${product.tentheloai}'),
+                    );
                   },
-                ),
-
-
+                );
+              },
+            );
+          }
+        },
+      ),
 
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

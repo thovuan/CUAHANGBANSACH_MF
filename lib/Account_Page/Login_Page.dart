@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../MainPage/Home.dart';
 
 void main() {
@@ -51,28 +53,67 @@ class _MyHomePageState extends State<MyHomePage> {
   void _Login() {
     setState(() {
       if ((_username.text == username) &&  (_password.text == password)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login Kanryou'),
-            duration: Duration(seconds: 2),
-          ),);
-        Future.delayed(const Duration(seconds: 2), () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage(data: 0)),
-          );
-        });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login Kanryou'),
+              duration: Duration(seconds: 2),
+            ),);
+          Future.delayed(const Duration(seconds: 2), () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage(data: 0)),
+            );
+          });
 
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login Shippai'),
-            duration: Duration(seconds: 2),
-          ),);
-      }
-
-
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login Shippai'),
+              duration: Duration(seconds: 2),
+            ),);
+        }
     });
+      //
+
+
+        // final String username1 = _username.text;
+        // final String password1 = _password.text;
+        //
+        // final response = await http.post(
+        //   Uri.parse('http://10.0.3.2:8080/api/Guest/Login'),  // Địa chỉ API của Spring Boot
+        //   headers: <String, String>{
+        //     'Content-Type': 'application/json; charset=UTF-8',
+        //   },
+        //   body: jsonEncode(<String, String>{
+        //     "tendangnhap": username1,
+        //     "matkhau": password1,
+        //   }),
+        // );
+        // print('Error: ${response.statusCode}');
+        //
+        // if (response.statusCode == 200) {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //           const SnackBar(
+        //             content: Text('Login Kanryou'),
+        //             duration: Duration(seconds: 2),
+        //           ),);
+        //         Future.delayed(const Duration(seconds: 2), () {
+        //           Navigator.pushReplacement(
+        //             context,
+        //             MaterialPageRoute(builder: (context) => const HomePage(data: 0)),
+        //           );
+        //         });
+        // } else {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //           const SnackBar(
+        //             content: Text('Login Shippai'),
+        //             duration: Duration(seconds: 2),
+        //           ),);
+        // }
+
+
+
+
   }
 
   @override
